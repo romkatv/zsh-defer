@@ -128,14 +128,17 @@ Example ~/.zshrc:
 
   source ~/zsh-defer/zsh-defer.plugin.zsh
 
-  PROMPT="%~%# "
-  RPROMPT="loading"
-  setopt prompt_subst
+  PROMPT="%F{12}%~%f "
+  RPROMPT="%F{240}loading%f"
+  setopt promp_subst
+
   zsh-defer source ~/zsh-autosuggestions/zsh-autosuggestions.zsh
   zsh-defer source ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
   zsh-defer source ~/.nvm/nvm.sh
-  zsh-defer -c '\''RPROMPT="\$(git rev-parse --abbrev-ref HEAD 2>/dev/null)"'\''
+  zsh-defer -c '\''RPROMPT="%F{2}\$(git rev-parse --abbrev-ref HEAD 2>/dev/null)%f"'\''
   zsh-defer -a zle -M "zsh: initialization complete"
+
+Full documentation at: <https://github.com/romkatv/zsh-defer>.
 '
         return 0
       ;;
