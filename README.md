@@ -20,6 +20,7 @@ Features:
 1. [Caveats](#caveats)
 1. [FAQ](#faq)
    1. [Is it possible to autoload zsh-defer?](#is-it-possible-to-autoload-zsh-defer)
+   1. [Is it possible to find out from within a command whether it's being executed by zsh-defer?](#is-it-possible-to-find-out-from-within-a-command-whether-its-being-executed-by-zsh-defer)
    1. [Is zsh-defer a plugin manager?](#is-zsh-defer-a-plugin-manager)
    1. [How useful is it?](#how-useful-is-it)
    1. [Is zsh-defer compatible with Instant Prompt in Powerlevel10k?](#is-zsh-defer-compatible-with-instant-prompt-in-powerlevel10k)
@@ -137,6 +138,23 @@ You can do this:
 ```zsh
 fpath+=(~/zsh-defer)
 autoload -Uz zsh-defer
+```
+
+### Is it possible to find out from within a command whether it's being executed by zsh-defer?
+
+Yes.
+
+```zsh
+function say-hi() {
+  if (( $+zsh_defer_options )); then
+    echo "Hello from zsh-defer with options: $zsh_defer_options" >>/tmp/log
+  else
+    echo "Hello from without zsh-defer" >>/tmp/log
+  fi
+}
+
+say-hi            # Hello from zsh-defer with options: 12dmshp
+zsh-defer say-hi  # Hello from without zsh-defer
 ```
 
 ### Is zsh-defer a plugin manager?
