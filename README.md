@@ -1,6 +1,6 @@
 # zsh-defer: Deferred execution of zsh commands
 
-`zsh-defer` defers execution of a zsh commands until zle is idle. Its intended purpose is staged zsh
+`zsh-defer` defers execution of a zsh command until zle is idle. Its intended purpose is staged zsh
 startup. It works similarly to Turbo mode in [zplugin](https://github.com/zdharma/zplugin).
 
 Features:
