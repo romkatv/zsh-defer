@@ -8,7 +8,7 @@ Features:
 - **Small and clean**: The API consists of a single function implemented in ~150 lines of
   straightforward zsh.
 - **Fast to load**: It takes under 1ms to source `zsh-defer.plugin.zsh`.
-- **Easy to use**: `source slow.zsh` => `defer source slow.zsh`.
+- **Easy to use**: `source slow.zsh` => `zsh-defer source slow.zsh`.
 - **Plugin manager agnostic**: Can be used with any plugin manager or even without one. Turbo mode
   for everyone.
 
