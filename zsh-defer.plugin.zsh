@@ -74,19 +74,14 @@ function _zsh-defer-apply() {
       fi
     }
     emulate -L zsh
-    local f
-    if [[ $opts == *d* && ${(%):-%/} != $dir ]]; then
-      for f in $chpwd $chpwd_functions; do
-        $f
-        emulate -L zsh
-      done
-    fi
-    if [[ $opts == *m* ]]; then
-      for f in $precmd $precmd_functions; do
-        $f
-        emulate -L zsh
-      done
-    fi
+    local hook hooks
+    [[ $opts == *d* && ${(%):-%/} != $dir ]] && hooks+=($chpwd  $chpwd_functions)
+    [[ $opts == *m*                       ]] && hooks+=($precmd $precmd_functions)
+    for hook in $hooks; do
+      (( $+functions[$hook] )) || continue
+      $hook
+      emulate -L zsh
+    done
     [[ $opts == *s* && $+ZSH_AUTOSUGGEST_STRATEGY    == 1 ]] && zle zsh-defer-reset-autosuggestions_
     [[ $opts == *h* && $+_ZSH_HIGHLIGHT_PRIOR_BUFFER == 1 ]] && _ZSH_HIGHLIGHT_PRIOR_BUFFER=
     [[ $opts == *p* ]] && zle reset-prompt
