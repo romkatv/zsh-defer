@@ -28,7 +28,7 @@ zle -N zsh-defer-reset-autosuggestions_
 
 function _zsh-defer-schedule() {
   local fd
-  if (( $1 )); then
+  if [[ $1 == *[1-9]* ]]; then
     exec {fd}< <(sleep $1)
   else
     exec {fd}</dev/null
@@ -41,13 +41,15 @@ function _zsh-defer-resume() {
   zle -F $1
   exec {1}>&-
   while (( $#_defer_tasks && !KEYS_QUEUED_COUNT && !PENDING )); do
-    if [[ $_defer_tasks[1] == "0 "* ]]; then
-      _zsh-defer-apply ${_defer_tasks[1]#0 }
-      shift _defer_tasks
-    else
-      _zsh-defer-schedule ${_defer_tasks[1]%% *}
-      _defer_tasks[1]="0 ${_defer_tasks[1]#* }"
+    local delay=${_defer_tasks[1]%% *}
+    local task=${_defer_tasks[1]#* }
+    if [[ $delay == *[1-9]* ]]; then
+      _zsh-defer-schedule $delay
+      _defer_tasks[1]="0 $task"
       return 0
+    else
+      _zsh-defer-apply $task
+      shift _defer_tasks
     fi
   done
   (( $#_defer_tasks )) && _zsh-defer-schedule
@@ -130,7 +132,7 @@ Example ~/.zshrc:
 
   PROMPT="%F{12}%~%f "
   RPROMPT="%F{240}loading%f"
-  setopt promp_subst
+  setopt prompt_subst
 
   zsh-defer source ~/zsh-autosuggestions/zsh-autosuggestions.zsh
   zsh-defer source ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -151,7 +153,7 @@ Full documentation at: <https://github.com/romkatv/zsh-defer>.
         cmd=$OPTARG
       ;;
       t)
-        if [[ $OPTARG != <->(.<->|) ]]; then
+        if [[ $OPTARG == *' '* ]]; then
           print -r -- "zsh-defer: invalid -t argument: $OPTARG" >&2
           return 1
         fi
