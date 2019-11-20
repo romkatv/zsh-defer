@@ -1,5 +1,3 @@
-# zsh-defer can be autoload
-
 'builtin' 'emulate' '-L' 'zsh' '-o' 'no_aliases'
 
 if (( ! $+_defer_tasks )); then
