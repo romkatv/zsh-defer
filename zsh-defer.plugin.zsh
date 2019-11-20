@@ -75,13 +75,11 @@ function _zsh-defer-apply() {
     }
     emulate -L zsh
     local f
-    if [[ $opts == *d* ]]; then
-      if [[ ${(%):-%/} != $dir ]]; then
-        for f in $chpwd $chpwd_functions; do
-          $f
-          emulate -L zsh
-        done
-      fi
+    if [[ $opts == *d* && ${(%):-%/} != $dir ]]; then
+      for f in $chpwd $chpwd_functions; do
+        $f
+        emulate -L zsh
+      done
     fi
     if [[ $opts == *m* ]]; then
       for f in $precmd $precmd_functions; do
