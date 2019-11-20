@@ -133,8 +133,7 @@ Example ~/.zshrc:
   zsh-defer -c '\''RPROMPT="%F{2}\$(git rev-parse --abbrev-ref HEAD 2>/dev/null)%f"'\''
   zsh-defer -a zle -M "zsh: initialization complete"
 
-Full documentation at: <https://github.com/romkatv/zsh-defer>.
-'
+Full documentation at: <https://github.com/romkatv/zsh-defer>.'
         return 0
       ;;
       c)
