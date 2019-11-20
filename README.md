@@ -1,8 +1,7 @@
 # zsh-defer: Deferred execution of zsh commands
 
-`zsh-defer` allows you to defer execution of zsh commands until zle is idle. Its intended purpose is
-staged zsh startup. It works similarly to Turbo mode in
-[zplugin](https://github.com/zdharma/zplugin).
+`zsh-defer` defers execution of a zsh commands until zle is idle. Its intended purpose is staged zsh
+startup. It works similarly to Turbo mode in [zplugin](https://github.com/zdharma/zplugin).
 
 Features:
 
@@ -12,6 +11,21 @@ Features:
 - **Easy to use**: `source slow.zsh` => `defer source slow.zsh`.
 - **Plugin manager agnostic**: Can be used with any plugin manager or even without one. Turbo mode
   for everyone.
+
+## Table of Contents
+
+1. [Installation](#installation)
+1. [Usage](#usage)
+1. [Example](#example)
+1. [Caveats](#caveats)
+1. [FAQ](#faq)
+   1. [Is it possible to autoload zsh-defer?](#is-it-possible-to-autoload-zsh-defer)
+   1. [Is zsh-defer a plugin manager?](#is-zsh-defer-a-plugin-manager)
+   1. [How useful is it?](#how-useful-is-it)
+   1. [Is zsh-defer compatible with Instant Prompt in Powerlevel10k?](#is-zsh-defer-compatible-with-instant-prompt-in-powerlevel10k)
+   1. [Can I use zsh-defer together with zplugin?](#can-i-use-zsh-defer-together-with-zplugin)
+   1. [How does zsh-defer compare to Turbo mode in zplugin?](#how-does-zsh-defer-compare-to-turbo-mode-in-zplugin)
+   1. [Why so many references to and comparisons with zplugin?](#why-so-many-references-to-and-comparisons-with-zplugin)
 
 ## Installation
 
@@ -39,7 +53,7 @@ the queue. If the command has been queued up with `-t seconds`, execution of the
 therefore of all queued commands after it) is delayed by the specified number of seconds without
 blocking zle. If `sleep` on your system accepts fractional arguments such as `0.1`, then `-t` also
 accepts them. After the delay the command is executed either as `command args..` (first form) or
-`eval command` (second form).
+`eval command` (second form, with `-c`).
 
 Options can be used to enable (`+x`) or disable (`-x`) extra actions taken during and after the
 execution of the command. By default, all actions are enabled. The same option can be enabled or
@@ -61,7 +75,7 @@ disabled more than once -- the last instance wins.
 
 Here's an example of `~/.zshrc` that uses `zsh-defer` to achieve staged zsh startup. When starting
 zsh, it takes only a few milliseconds for this `~/.zshrc` to be evaluated and for prompt to appear.
-After that, prompt and command line buffer will be refreshed and buffered keyboard input will be
+After that, prompt and the command line buffer will be refreshed and buffered keyboard input will be
 processed after the execution of every deferred command.
 
 ```zsh
@@ -78,11 +92,11 @@ zsh-defer -c 'RPROMPT="%F{2}\$(git rev-parse --abbrev-ref HEAD 2>/dev/null)%f"'
 zsh-defer -a zle -M "zsh: initialization complete"
 ```
 
-Zsh startup without `zsh-defer`: Prompt appears once everything is loaded.
+Zsh startup without `zsh-defer`. Prompt appears once everything is loaded.
 
 ![zsh startup without zsh-defer](https://raw.githubusercontent.com/romkatv/zsh-defer/master/docs/zsh-startup-without-defer.gif)
 
-Zsh startup without `zsh-defer`: Prompt appears instantly and gets updated after every startup stage.
+Zsh startup with `zsh-defer`. Prompt appears instantly and gets updated after every startup stage.
 
 ![zsh startup with zsh-defer](https://raw.githubusercontent.com/romkatv/zsh-defer/master/docs/zsh-startup-with-defer.gif)
 
@@ -108,6 +122,23 @@ Zsh startup without `zsh-defer`: Prompt appears instantly and gets updated after
 
 ## FAQ
 
+### Is it possible to autoload zsh-defer?
+
+Yes.
+
+Instead of this:
+
+```zsh
+source ~/zsh-defer/zsh-defer.plugin.zsh
+```
+
+You can do this:
+
+```zsh
+fpath+=(~/zsh-defer)
+autoload -Uz zsh-defer
+```
+
 ### Is zsh-defer a plugin manager?
 
 No. `zsh-defer` is a function that allows you to defer execution of zsh commands. You can use it
@@ -116,6 +147,12 @@ on its own or with a plugin manager to effectively add Turbo mode to it.
 ### How useful is it?
 
 About as useful as Turbo mode in zplugin.
+
+### Is zsh-defer compatible with Instant Prompt in Powerlevel10k?
+
+Yes. Although if you are using [Powerlevel10k](https://github.com/romkatv/powerlevel10k/) with
+[Instant Prompt](https://github.com/romkatv/powerlevel10k/blob/master/README.md#what-is-instant-prompt)
+you likely don't need to use deferred loading of any kind.
 
 ### Can I use zsh-defer together with zplugin?
 
@@ -162,3 +199,5 @@ On the other hand, `zplugin ice wait` has its own advantages:
 
 Turbo mode in zplugin is the only other robust implementation of deferred zsh command execution that
 I'm aware of. There is also `zsh/sched` but it's underpowered by comparison.
+
+Note that zsh-defer is not a plugin manager and thus not an alternative to zplugin.
