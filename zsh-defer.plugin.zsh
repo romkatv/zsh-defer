@@ -19,6 +19,8 @@
 [[ ! -o 'no_brace_expand' ]] || _zsh_defer_opts+=('no_brace_expand')
 'builtin' 'setopt' 'no_aliases' 'no_sh_glob' 'brace_expand'
 
+typeset -ga _defer_tasks
+
 function zsh-defer-reset-autosuggestions_() {
   unsetopt warn_nested_var
   orig_buffer=
@@ -91,8 +93,6 @@ function _zsh-defer-apply() {
     (( fd2 >= 0 )) && exec 2>&$fd2 {fd2}>&-
   }
 }
-
-typeset -ga _defer_tasks
 
 function zsh-defer() {
   emulate -L zsh -o extended_glob
