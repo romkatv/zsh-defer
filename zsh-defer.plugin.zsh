@@ -101,14 +101,14 @@ function zsh-defer() {
   while getopts ":hc:t:a$all" opt; do
     case $opt in
       *h)
-        print -r -- 'zsh-defer [{+|-}'$all'] [-t seconds] -c command
-zsh-defer [{+|-}'$all'] [-t seconds] [command [args]...]
+        print -r -- 'zsh-defer [{+|-}'$all'] [-t duration] -c command
+zsh-defer [{+|-}'$all'] [-t duration] [command [args]...]
 
 Defer execution of the command until zle is idle. Typically called form ~/.zshrc.
 Deferred commands run in the same order they are queued up. 
 
   -c command  Run `eval command` instead of `command args...`.
-  -t seconds  Delay execution of deferred commands by this many seconds.
+  -t duration Delay execution of deferred commands by this long.
   -1          Don'\''t redirect stdout to /dev/null.
   -2          Don'\''t redirect stderr to /dev/null.
   -d          Don'\''t call chpwd hooks.

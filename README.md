@@ -46,16 +46,16 @@ GitHub.*
 ## Usage
 
 ```text
-zsh-defer [{+|-}12dmshpr] [-t seconds] [command [args]...]
-zsh-defer [{+|-}12dmshpr] [-t seconds] -c command
+zsh-defer [{+|-}12dmshpr] [-t duration] [command [args]...]
+zsh-defer [{+|-}12dmshpr] [-t duration] -c command
 ```
 
 Deferred commands are put in a queue (FIFO). Whenever zle is idle, the next command is popped from
-the queue. If the command has been queued up with `-t seconds`, execution of the command (and
-therefore of all queued commands after it) is delayed by the specified number of seconds without
-blocking zle. If `sleep` on your system accepts fractional arguments such as `0.1`, then `-t` also
-accepts them. After the delay the command is executed either as `command args..` (first form) or
-`eval command` (second form, with `-c`).
+the queue. If the command has been queued up with `-t duration`, execution of the command (and
+therefore of all queued commands after it) is delayed by the specified duration without
+blocking zle. Duration can be specified in any format accepted by `sleep(1)`. After the delay the
+command is executed either as `command args..` (first form) or as `eval command` (second form, with
+`-c`).
 
 Options can be used to enable (`+x`) or disable (`-x`) extra actions taken during and after the
 execution of the command. By default, all actions are enabled. The same option can be enabled or
@@ -201,7 +201,7 @@ they otherwise didn't have. However, there are also a few minor benefits to usin
 
 - `zsh-defer` guarantees that all buffered keyboard input gets processed before every deferred
   command.
-- The argument of `-t seconds` can be fractional.
+- The argument of `-t` can be fractional.
 - The default options of `zsh-defer` are fairly effective at mitigating the
   [negative side effects](#Caveats) of deferred loading.
 - Options provide full flexibility that hardcore zsh users might desire.
