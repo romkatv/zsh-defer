@@ -143,7 +143,7 @@ autoload -Uz zsh-defer
 
 ### Is it possible to find out from within a command whether it's being executed by zsh-defer?
 
-Yes.
+Yes. Check whether `zsh_defer_options` parameter is set.
 
 ```zsh
 function say-hi() {
