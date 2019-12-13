@@ -1,7 +1,7 @@
 'builtin' 'emulate' '-L' 'zsh' '-o' 'no_aliases'
 
 if (( ! $+_defer_tasks )); then
-  source ${0:A:h}/zsh-defer.plugin.zsh
+  source ${functions_source[zsh-defer]:A:h}/zsh-defer.plugin.zsh
 fi
 
 zsh-defer "$@"
