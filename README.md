@@ -91,7 +91,6 @@ zsh-defer source ~/zsh-autosuggestions/zsh-autosuggestions.zsh
 zsh-defer source ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 zsh-defer source ~/.nvm/nvm.sh
 zsh-defer -c 'RPROMPT="%F{2}\$(git rev-parse --abbrev-ref HEAD 2>/dev/null)%f"'
-zsh-defer -a zle -M "zsh: initialization complete"
 ```
 
 Zsh startup without `zsh-defer`. Prompt appears once everything is loaded.
