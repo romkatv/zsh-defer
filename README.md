@@ -46,16 +46,16 @@ GitHub.*
 ## Usage
 
 ```text
-zsh-defer [{+|-}12dmshpr] [-t duration] [command [args]...]
-zsh-defer [{+|-}12dmshpr] [-t duration] -c command
+zsh-defer [{+|-}12dmshpr] [-t delay] word...
+zsh-defer [{+|-}12dmshpr] [-t delay] -c list
 ```
 
-Deferred commands are put in a queue (FIFO). Whenever zle is idle, the next command is popped from
-the queue. If the command has been queued up with `-t duration`, execution of the command (and
-therefore of all queued commands after it) is delayed by the specified duration without
-blocking zle. Duration can be specified in any format accepted by `sleep(1)`. After the delay the
-command is executed either as `command args..` (first form) or as `eval command` (second form, with
-`-c`).
+Queues up the specified command for deferred execution. Whenever zle is idle, the next command is
+popped from the queue. If the command has been queued up with `-t delay`, execution of the command
+and all deferred commands after it is delayed by the specified duration without blocking zle.
+Duration can be specified in any format accepted by `sleep(1)`. After that the command is executed
+either as `word...` with every word quoted, or, if `-c` is specified, as `eval list`. Commands are
+executed in the same order they are queued up.
 
 Options can be used to enable (`+x`) or disable (`-x`) extra actions taken during and after the
 execution of the command. By default, all actions are enabled. The same option can be enabled or
@@ -77,20 +77,20 @@ disabled more than once -- the last instance wins.
 
 Here's an example of `~/.zshrc` that uses `zsh-defer` to achieve staged zsh startup. When starting
 zsh, it takes only a few milliseconds for this `~/.zshrc` to be evaluated and for prompt to appear.
-After that, prompt and the command line buffer will be refreshed and buffered keyboard input will be
+After that, prompt and the command line buffer are refreshed and buffered keyboard input are
 processed after the execution of every deferred command.
 
 ```zsh
 source ~/zsh-defer/zsh-defer.plugin.zsh
 
-PROMPT="%F{12}%~%f "
-RPROMPT="%F{240}loading%f"
+PS1="%F{12}%~%f "
+RPS1="%F{240}loading%f"
 setopt promp_subst
 
 zsh-defer source ~/zsh-autosuggestions/zsh-autosuggestions.zsh
 zsh-defer source ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 zsh-defer source ~/.nvm/nvm.sh
-zsh-defer -c 'RPROMPT="%F{2}\$(git rev-parse --abbrev-ref HEAD 2>/dev/null)%f"'
+zsh-defer -c 'RPS1="%F{2}\$(git rev-parse --abbrev-ref HEAD 2>/dev/null)%f"'
 ```
 
 Zsh startup without `zsh-defer`. Prompt appears once everything is loaded.
@@ -104,7 +104,7 @@ Zsh startup with `zsh-defer`. Prompt appears instantly and gets updated after ev
 1. zsh-autosuggestions is loaded: completion suggestion appears.
 2. zsh-highlighting is loaded: `nvm` in the command line turns red (no such command).
 3. nvm is loaded: `nvm` turns green (recognized command).
-4. `RPROMPT` is set: the name of the current Git branch appears.
+4. `RPS1` is set: the name of the current Git branch appears.
 
 ## Caveats
 

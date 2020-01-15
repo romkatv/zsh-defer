@@ -101,37 +101,50 @@ function zsh-defer() {
   while getopts ":hc:t:a$all" opt; do
     case $opt in
       *h)
-        print -r -- 'zsh-defer [{+|-}'$all'] [-t duration] -c command
-zsh-defer [{+|-}'$all'] [-t duration] [command [args]...]
+        if [[ -t 0 ]]; then
+          local q_on=$'['
+        else
+        fi
+        print -r -- 'zsh-defer [{+|-}'$all'] [-t duration] word...
+zsh-defer [{+|-}'$all'] [-t delay] -c list
 
-Defer execution of the command until zle is idle. Typically called form ~/.zshrc.
-Deferred commands run in the same order they are queued up. 
+Queues up the specified command for deferred execution. Whenever zle is idle,
+the next command is popped from the queue. If the command has been queued up
+with `-t delay`, execution of the command and all deferred commands after it is
+delayed by the specified duration without blocking zle. Duration can be
+specified in any format accepted by `sleep(1)`. After that the command is
+executed either as `word...` with every word quoted, or, if `-c` is specified,
+as `eval list`. Commands are executed in the same order they are queued up.
 
-  -c command  Run `eval command` instead of `command args...`.
-  -t duration Delay execution of deferred commands by this long.
-  -1          Don'\''t redirect stdout to /dev/null.
-  -2          Don'\''t redirect stderr to /dev/null.
-  -d          Don'\''t call chpwd hooks.
-  -m          Don'\''t call precmd hooks.
-  -s          Don'\''t invalidate suggestions from zsh-autosuggestions.
-  -h          Don'\''t invalidate highlighting from zsh-syntax-highlighting.
-  -p          Don'\''t call `zle reset-prompt`.
-  -r          Don'\''t call `zle -R`.
-  -a          The same as -12dmshpra.
+Options can be used to enable (`+x`) or disable (`-x`) extra actions taken
+during and after the execution of the command. By default, all actions are
+enabled. The same option can be enabled or disabled more than once -- the last
+instance wins.
 
-Example ~/.zshrc:
+  Option | Action
+  ------ |-------------------------------------------------------
+       1 | Redirect standard output to `/dev/null`.
+       2 | Redirect standard error to `/dev/null`.
+       d | Call `chpwd` hooks.
+       m | Call `precmd` hooks.
+       s | Invalidate suggestions from zsh-autosuggestions.
+       h | Invalidate highlighting from zsh-syntax-highlighting.
+       p | Call `zle reset-prompt`.
+       r | Call `zle -R`.
+       a | Shorthand for all options: `12dmshpra`.
+
+Example `~/.zshrc`:
 
   source ~/zsh-defer/zsh-defer.plugin.zsh
 
-  PROMPT="%F{12}%~%f "
-  RPROMPT="%F{240}loading%f"
+  PS1="%F{12}%~%f "
+  RPS1="%F{240}loading%f"
   setopt prompt_subst
 
   zsh-defer source ~/zsh-autosuggestions/zsh-autosuggestions.zsh
   zsh-defer source ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
   zsh-defer source ~/.nvm/nvm.sh
-  zsh-defer -c '\''RPROMPT="%F{2}\$(git rev-parse --abbrev-ref HEAD 2>/dev/null)%f"'\''
-  zsh-defer -a zle -M "zsh: initialization complete"
+  zsh-defer -c '\''RPS1="%F{2}\$(git rev-parse --abbrev-ref HEAD 2>/dev/null)%f"'\''
 
 Full documentation at: <https://github.com/romkatv/zsh-defer>.'
         return 0
