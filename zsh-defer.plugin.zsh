@@ -175,6 +175,7 @@ Full documentation at: <https://github.com/romkatv/zsh-defer>.'
     print -r -- "zsh-defer: unexpected positional argument: ${*[OPTIND]}" >&2
     return 1
   fi
+  [[ $opts == *p* && $+RPS1 == 0 ]] && RPS1=
   (( $#_zsh_defer_tasks )) || _zsh-defer-schedule
   _zsh_defer_tasks+="$delay $opts $cmd"
 }
