@@ -101,10 +101,6 @@ function zsh-defer() {
   while getopts ":hc:t:a$all" opt; do
     case $opt in
       *h)
-        if [[ -t 0 ]]; then
-          local q_on=$'['
-        else
-        fi
         print -r -- 'zsh-defer [{+|-}'$all'] [-t duration] word...
 zsh-defer [{+|-}'$all'] [-t delay] -c list
 
