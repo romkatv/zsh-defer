@@ -160,13 +160,13 @@ Full documentation at: <https://github.com/romkatv/zsh-defer>.'
         fi
         delay=$OPTARG
       ;;
-      +c|+t) print -r -- "zsh-defer: invalid option: $opt" >&2;               return 1;;
-      \?)    print -r -- "zsh-defer: invalid option: $OPTARG" >&2;            return 1;;
-      :)     print -r -- "zsh-defer: missing required argument: $OPTARG" >&2; return 1;;
-      a)  [[ $opts == *c* ]] && opts=c     || opts=;;
-      +a) [[ $opts == *c* ]] && opts=c$all || opts=$all;;
-      +?) [[ $opts == *${opt:1}* ]] || opts+=${opt:1};;
-      ?)  [[ $opts == (#b)(*)$opt(*) ]] && opts=$match[1]$match[2];;
+      +c|+t) >&2 print -r -- "zsh-defer: invalid option: $opt"               ; return 1;;
+      \?)    >&2 print -r -- "zsh-defer: invalid option: $OPTARG"            ; return 1;;
+      :)     >&2 print -r -- "zsh-defer: missing required argument: $OPTARG" ; return 1;;
+      a)  [[ $opts == *c*            ]] && opts=c                  || opts=            ;;
+      +a) [[ $opts == *c*            ]] && opts=c$all              || opts=$all        ;;
+      ?)  [[ $opts == (#b)(*)$opt(*) ]] && opts=$match[1]$match[2]                     ;;
+      +?) [[ $opts != *${opt:1}*     ]] && opts+=${opt:1}                              ;;
     esac
   done
   if [[ $opts != *c* ]]; then
