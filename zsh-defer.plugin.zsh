@@ -19,7 +19,7 @@
 [[ ! -o 'no_brace_expand' ]] || _zsh_defer_opts+=('no_brace_expand')
 'builtin' 'setopt' 'no_aliases' 'no_sh_glob' 'brace_expand'
 
-typeset -ga _defer_tasks
+typeset -ga _zsh_defer_tasks
 
 function zsh-defer-reset-autosuggestions_() {
   unsetopt warn_nested_var
@@ -42,19 +42,19 @@ function _zsh-defer-resume() {
   emulate -L zsh
   zle -F $1
   exec {1}>&-
-  while (( $#_defer_tasks && !KEYS_QUEUED_COUNT && !PENDING )); do
-    local delay=${_defer_tasks[1]%% *}
-    local task=${_defer_tasks[1]#* }
+  while (( $#_zsh_defer_tasks && !KEYS_QUEUED_COUNT && !PENDING )); do
+    local delay=${_zsh_defer_tasks[1]%% *}
+    local task=${_zsh_defer_tasks[1]#* }
     if [[ $delay == *[1-9]* ]]; then
       _zsh-defer-schedule $delay
-      _defer_tasks[1]="0 $task"
+      _zsh_defer_tasks[1]="0 $task"
       return 0
     else
       _zsh-defer-apply $task
-      shift _defer_tasks
+      shift _zsh_defer_tasks
     fi
   done
-  (( $#_defer_tasks )) && _zsh-defer-schedule
+  (( $#_zsh_defer_tasks )) && _zsh-defer-schedule
   return 0
 }
 zle -N _zsh-defer-resume
@@ -175,8 +175,8 @@ Full documentation at: <https://github.com/romkatv/zsh-defer>.'
     print -r -- "zsh-defer: unexpected positional argument: ${*[OPTIND]}" >&2
     return 1
   fi
-  (( $#_defer_tasks )) || _zsh-defer-schedule
-  _defer_tasks+="$delay $opts $cmd"
+  (( $#_zsh_defer_tasks )) || _zsh-defer-schedule
+  _zsh_defer_tasks+="$delay $opts $cmd"
 }
 
 (( ${#_zsh_defer_opts} )) && setopt ${_zsh_defer_opts[@]}
