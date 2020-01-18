@@ -52,10 +52,10 @@ zsh-defer [{+|-}12dmshpr] [-t delay] -c list
 
 Queues up the specified command for deferred execution. Whenever zle is idle, the next command is
 popped from the queue. If the command has been queued up with `-t delay`, execution of the command
-and all deferred commands after it is delayed by the specified duration without blocking zle.
-Duration can be specified in any format accepted by `sleep(1)`. After that the command is executed
-either as `word...` with every word quoted, or, if `-c` is specified, as `eval list`. Commands are
-executed in the same order they are queued up.
+and all deferred commands after it is delayed by the specified number of seconds (non-negative real
+number) without blocking zle. Duration can be specified in any format accepted by `sleep(1)`. After
+that the command is executed either as `word...` with every word quoted, or, if `-c` is specified,
+as `eval list`. Commands are executed in the same order they are queued up.
 
 Options can be used to enable (`+x`) or disable (`-x`) extra actions taken during and after the
 execution of the command. By default, all actions are enabled. The same option can be enabled or

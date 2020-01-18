@@ -30,10 +30,11 @@ zle -N zsh-defer-reset-autosuggestions_
 
 function _zsh-defer-schedule() {
   local fd
-  if [[ $1 == *[1-9]* ]]; then
-    exec {fd}< <(sleep $1)
-  else
+  if [[ $1 == 0 ]]; then
     exec {fd}</dev/null
+  else
+    zmodload zsh/zselect
+    exec {fd}< <(zselect -t $1)
   fi
   zle -F $fd _zsh-defer-resume
 }
@@ -45,16 +46,16 @@ function _zsh-defer-resume() {
   while (( $#_zsh_defer_tasks && !KEYS_QUEUED_COUNT && !PENDING )); do
     local delay=${_zsh_defer_tasks[1]%% *}
     local task=${_zsh_defer_tasks[1]#* }
-    if [[ $delay == *[1-9]* ]]; then
+    if [[ $delay == 0 ]]; then
+      _zsh-defer-apply $task
+      shift _zsh_defer_tasks
+    else
       _zsh-defer-schedule $delay
       _zsh_defer_tasks[1]="0 $task"
       return 0
-    else
-      _zsh-defer-apply $task
-      shift _zsh_defer_tasks
     fi
   done
-  (( $#_zsh_defer_tasks )) && _zsh-defer-schedule
+  (( $#_zsh_defer_tasks )) && _zsh-defer-schedule 0
   return 0
 }
 zle -N _zsh-defer-resume
@@ -97,20 +98,21 @@ function _zsh-defer-apply() {
 function zsh-defer() {
   emulate -L zsh -o extended_glob
   local all=12dmshpr
-  local opts=$all cmd opt OPTIND OPTARG delay=0
+  local -i delay OPTIND
+  local opts=$all cmd opt OPTARG
   while getopts ":hc:t:a$all" opt; do
     case $opt in
       *h)
-        print -r -- 'zsh-defer [{+|-}'$all'] [-t duration] word...
+        print -r -- 'zsh-defer [{+|-}'$all'] [-t delay] word...
 zsh-defer [{+|-}'$all'] [-t delay] -c list
 
 Queues up the specified command for deferred execution. Whenever zle is idle,
 the next command is popped from the queue. If the command has been queued up
 with `-t delay`, execution of the command and all deferred commands after it is
-delayed by the specified duration without blocking zle. Duration can be
-specified in any format accepted by `sleep(1)`. After that the command is
-executed either as `word...` with every word quoted, or, if `-c` is specified,
-as `eval list`. Commands are executed in the same order they are queued up.
+delayed by the specified number of seconds (non-negative real number) without
+blocking zle. After that the command is executed either as `word...` with every
+word quoted, or, if `-c` is specified, as `eval list`. Commands are executed in
+the same order they are queued up.
 
 Options can be used to enable (`+x`) or disable (`-x`) extra actions taken
 during and after the execution of the command. By default, all actions are
@@ -154,11 +156,12 @@ Full documentation at: <https://github.com/romkatv/zsh-defer>.'
         cmd=$OPTARG
       ;;
       t)
-        if [[ $OPTARG == *' '* ]]; then
+        if [[ $OPTARG != (|+)<->(|.<->)(|[eE](|-|+)<->) ]]; then
           print -r -- "zsh-defer: invalid -t argument: $OPTARG" >&2
           return 1
         fi
-        delay=$OPTARG
+        zmodload zsh/mathfunc
+        delay='ceil(100 * OPTARG)'
       ;;
       +c|+t) >&2 print -r -- "zsh-defer: invalid option: $opt"               ; return 1;;
       \?)    >&2 print -r -- "zsh-defer: invalid option: $OPTARG"            ; return 1;;
@@ -176,7 +179,7 @@ Full documentation at: <https://github.com/romkatv/zsh-defer>.'
     return 1
   fi
   [[ $opts == *p* && $+RPS1 == 0 ]] && RPS1=
-  (( $#_zsh_defer_tasks )) || _zsh-defer-schedule
+  (( $#_zsh_defer_tasks )) || _zsh-defer-schedule 0
   _zsh_defer_tasks+="$delay $opts $cmd"
 }
 
