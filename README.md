@@ -121,6 +121,10 @@ Zsh startup with `zsh-defer`. Prompt appears instantly and gets updated after ev
     The default options in `zsh-defer` can help you sidestep these issues in many cases but not
     always.
 
+`zsh-defer` executes commands in function scope with `LOCAL_OPTIONS`, `LOCAL_PATTERNS` and
+`LOCAL_TRAPS` options. This can break initialization scripts that use `typeset` without explicit
+`-g`, set options, change patterns or install traps.
+
 ## FAQ
 
 ### Is it possible to autoload zsh-defer?
