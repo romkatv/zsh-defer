@@ -43,6 +43,13 @@ source ~/zsh-defer/zsh-defer.plugin.zsh
 *Using a plugin manager? You can install zsh-defer the same way as any other zsh plugin hosted on
 GitHub.*
 
+Tip: Conditionally defer:
+
+```
+# Won't defer if not interactive or disabled explicitly
+{ [[ $- == *i* ]] && test -z "$DISABLE_DEFER" } && antibody bundle romkatv/zsh-defer || alias zsh-defer=''
+```
+
 ## Usage
 
 ```text
