@@ -86,7 +86,7 @@ function _zsh-defer-apply() {
       emulate -L zsh
     done
     [[ $opts == *s* && $+ZSH_AUTOSUGGEST_STRATEGY    == 1 ]] && zle zsh-defer-reset-autosuggestions_
-    [[ $opts == *h* && $+_ZSH_HIGHLIGHT_PRIOR_BUFFER == 1 ]] && _ZSH_HIGHLIGHT_PRIOR_BUFFER=
+    [[ $opts == *z* && $+_ZSH_HIGHLIGHT_PRIOR_BUFFER == 1 ]] && _ZSH_HIGHLIGHT_PRIOR_BUFFER=
     [[ $opts == *p* ]] && zle reset-prompt
     [[ $opts == *r* ]] && zle -R
   } always {
@@ -97,7 +97,7 @@ function _zsh-defer-apply() {
 
 function zsh-defer() {
   emulate -L zsh -o extended_glob
-  local all=12dmshpr
+  local all=12dmszpr
   local -i delay OPTIND
   local opts=$all cmd opt OPTARG
   while getopts ":hc:t:a$all" opt; do
@@ -126,10 +126,10 @@ instance wins.
        d | Call `chpwd` hooks.
        m | Call `precmd` hooks.
        s | Invalidate suggestions from zsh-autosuggestions.
-       h | Invalidate highlighting from zsh-syntax-highlighting.
+       z | Invalidate highlighting from zsh-syntax-highlighting.
        p | Call `zle reset-prompt`.
        r | Call `zle -R`.
-       a | Shorthand for all options: `12dmshpra`.
+       a | Shorthand for all options: `12dmszpra`.
 
 Example `~/.zshrc`:
 

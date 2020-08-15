@@ -68,10 +68,10 @@ disabled more than once -- the last instance wins.
 | *d*        | Call `chpwd` hooks.                                                                                           |
 | *m*        | Call `precmd` hooks.                                                                                          |
 | *s*        | Invalidate suggestions from [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions).          |
-| *h*        | Invalidate highlighting from [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting). |
+| *z*        | Invalidate highlighting from [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting). |
 | *p*        | Call `zle reset-prompt`.                                                                                      |
 | *r*        | Call `zle -R`.                                                                                                |
-| *a*        | Shorthand for all options: *12dmshpra*.                                                                       |
+| *a*        | Shorthand for all options: *12dmszpra*.                                                                       |
 
 ## Example
 
