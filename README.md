@@ -1,8 +1,8 @@
 # zsh-defer: Deferred execution of zsh commands
 
 `zsh-defer` defers execution of a zsh command until zsh has nothing else to do and is waiting for
-user input. Its intended purpose is staged zsh startup. It works similarly to Turbo mode in
-[zplugin](https://github.com/zdharma/zplugin).
+user input. Its intended purpose is staged zsh startup. It works similarly to *Turbo mode* in
+[zinit](https://github.com/zdharma/zinit).
 
 Features:
 
@@ -10,8 +10,7 @@ Features:
   straightforward zsh.
 - **Fast to load**: It takes under 1ms to source `zsh-defer.plugin.zsh`.
 - **Easy to use**: `source slow.zsh` => `zsh-defer source slow.zsh`.
-- **Plugin manager agnostic**: Can be used with any plugin manager or even without one. Turbo mode
-  for everyone.
+- **Plugin manager agnostic**: Can be used with any plugin manager or even without one.
 
 ## Table of Contents
 
@@ -25,9 +24,9 @@ Features:
    1. [Is zsh-defer a plugin manager?](#is-zsh-defer-a-plugin-manager)
    1. [How useful is it?](#how-useful-is-it)
    1. [Is zsh-defer compatible with Instant Prompt in Powerlevel10k?](#is-zsh-defer-compatible-with-instant-prompt-in-powerlevel10k)
-   1. [Can I use zsh-defer together with zplugin?](#can-i-use-zsh-defer-together-with-zplugin)
-   1. [How does zsh-defer compare to Turbo mode in zplugin?](#how-does-zsh-defer-compare-to-turbo-mode-in-zplugin)
-   1. [Why so many references to and comparisons with zplugin?](#why-so-many-references-to-and-comparisons-with-zplugin)
+   1. [Can I use zsh-defer together with zinit?](#can-i-use-zsh-defer-together-with-zinit)
+   1. [How does zsh-defer compare to Turbo mode in zinit?](#how-does-zsh-defer-compare-to-turbo-mode-in-zinit)
+   1. [Why so many references to and comparisons with zinit?](#why-so-many-references-to-and-comparisons-with-zinit)
 
 ## Installation
 
@@ -164,11 +163,11 @@ zsh-defer say-hi  # Hello from without zsh-defer
 ### Is zsh-defer a plugin manager?
 
 No. `zsh-defer` is a function that allows you to defer execution of zsh commands. You can use it
-on its own or with a plugin manager to effectively add Turbo mode to it.
+on its own or with a plugin manager.
 
 ### How useful is it?
 
-About as useful as Turbo mode in zplugin.
+About as useful as Turbo mode in zinit.
 
 ### Is zsh-defer compatible with Instant Prompt in Powerlevel10k?
 
@@ -176,31 +175,31 @@ Yes. Although if you are using [Powerlevel10k](https://github.com/romkatv/powerl
 [Instant Prompt](https://github.com/romkatv/powerlevel10k/blob/master/README.md#what-is-instant-prompt)
 you likely don't need to use deferred loading of any kind.
 
-### Can I use zsh-defer together with zplugin?
+### Can I use zsh-defer together with zinit?
 
 Yes, both ways.
 
-You can load `zsh-defer` with zplugin the same way as any other plugin.
+You can load `zsh-defer` with zinit the same way as any other plugin.
 
 ```zsh
-zplugin light romkatv/zsh-defer
+zinit light romkatv/zsh-defer
 ```
 
-You can defer a `zplugin` command with `zsh-defer` the same way as any other command.
+You can defer a `zinit` command with `zsh-defer` the same way as any other command.
 
 ```zsh
-zsh-defer zplugin light zsh-users/zsh-autosuggestions
-zsh-defer zplugin light zsh-users/zsh-syntax-highlighting
+zsh-defer zinit light zsh-users/zsh-autosuggestions
+zsh-defer zinit light zsh-users/zsh-syntax-highlighting
 ```
 
-### How does zsh-defer compare to Turbo mode in zplugin?
+### How does zsh-defer compare to Turbo mode in zinit?
 
 They are quite similar. Both allow you to defer execution of a zsh command and both execute the
 command from zle, with all the [negative consequences](#Caveats) that this entails.
 
-`zsh-defer` is most useful to those who don't use zplugin as it gives them access to Turbo mode that
+`zsh-defer` is most useful to those who don't use zinit as it gives them access to Turbo mode that
 they otherwise didn't have. However, there are also a few minor benefits to using
-`zsh-defer zplugin light` compared to the builtin Turbo mode:
+`zsh-defer zinit light` compared to the builtin Turbo mode:
 
 - `zsh-defer` guarantees that all buffered keyboard input gets processed before every deferred
   command.
@@ -210,16 +209,16 @@ they otherwise didn't have. However, there are also a few minor benefits to usin
 - Options provide full flexibility that hardcore zsh users might desire.
 - `zsh-defer` has a short and easy-to-understand implementation.
 
-*Has zplugin closed the gap on one or more of these points? Please send a PR removing them from the
+*Has zinit closed the gap on one or more of these points? Please send a PR removing them from the
 list.*
 
-On the other hand, `zplugin ice wait` has its own advantages:
+On the other hand, `zinit ice wait` has its own advantages:
 
 - *I don't know any. Please help expanding this section.*
 
-### Why so many references to and comparisons with zplugin?
+### Why so many references to and comparisons with zinit?
 
-Turbo mode in zplugin is the only other robust implementation of deferred zsh command execution that
+Turbo mode in zinit is the only other robust implementation of deferred zsh command execution that
 I'm aware of. There is also `zsh/sched` but it's underpowered by comparison.
 
-Note that zsh-defer is not a plugin manager and thus not an alternative to zplugin.
+Note that zsh-defer is not a plugin manager and thus not an alternative to zinit.
