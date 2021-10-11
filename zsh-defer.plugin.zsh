@@ -81,7 +81,9 @@ function _zsh-defer-apply() {
     [[ $opts == *d* && ${(%):-%/} != $dir ]] && hooks+=($chpwd  $chpwd_functions)
     [[ $opts == *m*                       ]] && hooks+=($precmd $precmd_functions)
     for hook in $hooks; do
-      (( $+functions[$hook] )) && $hook
+      (( $+functions[$hook] )) || continue
+      $hook
+      emulate -L zsh
     done
     [[ $opts == *s* && $+ZSH_AUTOSUGGEST_STRATEGY    == 1 ]] && zle zsh-defer-reset-autosuggestions_
     [[ $opts == *z* && $+_ZSH_HIGHLIGHT_PRIOR_BUFFER == 1 ]] && _ZSH_HIGHLIGHT_PRIOR_BUFFER=
