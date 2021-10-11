@@ -99,7 +99,7 @@ function zsh-defer() {
   emulate -L zsh -o extended_glob
   local all=12dmszpr
   local -i delay OPTIND
-  local opts=$all cmd opt OPTARG
+  local opts=$all cmd opt OPTARG match mbegin mend
   while getopts ":hc:t:a$all" opt; do
     case $opt in
       *h)
