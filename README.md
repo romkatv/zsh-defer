@@ -70,7 +70,7 @@ disabled more than once -- the last instance wins.
 | *z*        | Invalidate highlighting from [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting). |
 | *p*        | Call `zle reset-prompt`.                                                                                      |
 | *r*        | Call `zle -R`.                                                                                                |
-| *a*        | Shorthand for all options: *12dmszpra*.                                                                       |
+| *a*        | Shorthand for all options: *12dmszpr*.                                                                        |
 
 ## Example
 

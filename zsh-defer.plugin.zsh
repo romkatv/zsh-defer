@@ -129,7 +129,7 @@ instance wins.
        z | Invalidate highlighting from zsh-syntax-highlighting.
        p | Call `zle reset-prompt`.
        r | Call `zle -R`.
-       a | Shorthand for all options: `12dmszpra`.
+       a | Shorthand for all options: `12dmszpr`.
 
 Example `~/.zshrc`:
 
