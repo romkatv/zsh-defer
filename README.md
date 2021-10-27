@@ -156,8 +156,8 @@ function say-hi() {
   fi
 }
 
-say-hi            # Hello from zsh-defer with options: 12dmshp
-zsh-defer say-hi  # Hello from without zsh-defer
+say-hi            # Hello from without zsh-defer
+zsh-defer say-hi  # Hello from zsh-defer with options: 12dmshp
 ```
 
 ### Is zsh-defer a plugin manager?
