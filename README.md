@@ -2,7 +2,7 @@
 
 `zsh-defer` defers execution of a zsh command until zsh has nothing else to do and is waiting for
 user input. Its intended purpose is staged zsh startup. It works similarly to *Turbo mode* in
-[zinit](https://github.com/zdharma/zinit).
+[zinit](https://github.com/zdharma-continuum/zinit).
 
 Features:
 
