@@ -166,7 +166,8 @@ on its own or with a plugin manager.
 
 ### How useful is it?
 
-About as useful as Turbo mode in zinit.
+[About as useful](https://github.com/romkatv/zsh-bench#deferred-initialization) as Turbo mode in
+zinit.
 
 ### Is zsh-defer compatible with Instant Prompt in Powerlevel10k?
 
