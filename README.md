@@ -139,8 +139,7 @@ source ~/zsh-defer/zsh-defer.plugin.zsh
 You can do this:
 
 ```zsh
-fpath+=(~/zsh-defer)
-autoload -Uz zsh-defer
+autoload -Uz ~/zsh-defer/zsh-defer
 ```
 
 ### Is it possible to find out from within a command whether it's being executed by zsh-defer?
