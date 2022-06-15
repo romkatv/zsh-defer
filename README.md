@@ -42,6 +42,14 @@ source ~/zsh-defer/zsh-defer.plugin.zsh
 *Using a plugin manager? You can install zsh-defer the same way as any other zsh plugin hosted on
 GitHub.*
 
+### Fig
+
+[Fig](https://fig.io) adds apps, shortcuts, and autocomplete to your existing terminal.
+
+Install `zsh-defer` in just one click.
+
+<a href="https://fig.io/plugins/other/zsh-defer_romkatv" target="_blank"><img src="https://fig.io/badges/install-with-fig.svg" /></a>
+
 ## Usage
 
 ```text
