@@ -172,8 +172,8 @@ zinit.
 ### Is zsh-defer compatible with Instant Prompt in Powerlevel10k?
 
 Yes. Although if you are using [Powerlevel10k](https://github.com/romkatv/powerlevel10k/) with
-[Instant Prompt](https://github.com/romkatv/powerlevel10k/blob/master/README.md#what-is-instant-prompt)
-you likely don't need to use deferred loading of any kind.
+[Instant Prompt](https://github.com/romkatv/zsh-bench#instant-prompt) you almost certainly don't
+need to use deferred loading of any kind.
 
 ### Can I use zsh-defer together with zinit?
 
@@ -195,7 +195,7 @@ zsh-defer zinit light zsh-users/zsh-syntax-highlighting
 ### How does zsh-defer compare to Turbo mode in zinit?
 
 They are quite similar. Both allow you to defer execution of a zsh command and both execute the
-command from zle, with all the [negative consequences](#Caveats) that this entails.
+command from zle, with all the [negative consequences](#caveats) that this entails.
 
 `zsh-defer` is most useful to those who don't use zinit as it gives them access to Turbo mode that
 they otherwise didn't have. However, there are also a few minor benefits to using
@@ -205,7 +205,7 @@ they otherwise didn't have. However, there are also a few minor benefits to usin
   command.
 - The argument of `-t` can be fractional.
 - The default options of `zsh-defer` are fairly effective at mitigating the
-  [negative side effects](#Caveats) of deferred loading.
+  [negative side effects](#caveats) of deferred loading.
 - Options provide full flexibility that hardcore zsh users might desire.
 - `zsh-defer` has a short and easy-to-understand implementation.
 
@@ -221,4 +221,4 @@ On the other hand, `zinit ice wait` has its own advantages:
 Turbo mode in zinit is the only other robust implementation of deferred zsh command execution that
 I'm aware of. There is also `zsh/sched` but it's underpowered by comparison.
 
-Note that zsh-defer is not a plugin manager and thus not an alternative to zinit.
+Note that `zsh-defer`` is not a plugin manager and thus not an alternative to zinit.
