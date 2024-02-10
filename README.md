@@ -221,4 +221,4 @@ On the other hand, `zinit ice wait` has its own advantages:
 Turbo mode in zinit is the only other robust implementation of deferred zsh command execution that
 I'm aware of. There is also `zsh/sched` but it's underpowered by comparison.
 
-Note that `zsh-defer`` is not a plugin manager and thus not an alternative to zinit.
+Note that `zsh-defer` is not a plugin manager and thus not an alternative to zinit.
